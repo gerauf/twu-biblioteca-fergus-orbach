@@ -1,12 +1,7 @@
 package com.twu.biblioteca;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
@@ -15,54 +10,25 @@ import static org.junit.Assert.*;
  */
 public class LibraryTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-
-    @Before
-    public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-
-    }
-
-    @After
-    public void cleanUpStreams() {
-        System.setOut(null);
-        System.setErr(null);
-    }
-
+    Library lib = new Library();
 
     @Test
-    public void welcomeMessageOnInit(){
-        new Library();
+    public void listsBooksInColumnFormat() throws Exception {
+        String results = "Author                          Title                          Year    \n";
+        assertThat(lib.list(), CoreMatchers.containsString(results));
 
-        assertThat(outContent.toString(), CoreMatchers.containsString("Hello and welcome to the Biblioteca"));
     }
 
     @Test
-    public void listBooksOnInit(){
+    public void libraryInitsWithBooks() throws Exception {
         String bookName = "Purity";
         String bookAuthor = "Jonathan Franzen";
         int bookYear = 2015;
 
-        new Library();
+        new LibraryUI();
 
-        assertThat(outContent.toString(), CoreMatchers.containsString(bookName));
-        assertThat(outContent.toString(), CoreMatchers.containsString(bookAuthor));
-        assertThat(outContent.toString(), CoreMatchers.containsString(Integer.toString(bookYear)));
-    }
-
-    @Test
-    public void bookDataDisplayedInColumns() throws Exception {
-        String formattedHeading;
-        String formattedBookTitle;
-        formattedHeading   = "Author                          Title                          Year    ";
-        formattedBookTitle = "Jonathan Franzen                Purity                         2015    ";
-
-        new Library();
-
-        assertThat(outContent.toString(), CoreMatchers.containsString(formattedHeading));
-        assertThat(outContent.toString(), CoreMatchers.containsString(formattedBookTitle));
-
+        assertThat(lib.list(), CoreMatchers.containsString(bookName));
+        assertThat(lib.list(), CoreMatchers.containsString(bookAuthor));
+        assertThat(lib.list(), CoreMatchers.containsString(Integer.toString(bookYear)));
     }
 }

@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import com.sun.javafx.binding.StringFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,24 +13,18 @@ public class Library {
     private List<Book> books = new ArrayList<Book>();
 
     Library(){
-        startScript();
-    }
-
-    private void startScript() {
         fillLibrary();
-        System.out.println("Hello and welcome to the Biblioteca");
-        System.out.println("--------");
-        printLibrary();
     }
 
-    private void printLibrary() {
+    String list(){
         String columnFormat = "%-30.30s  %-30.30s %-8.4s\n";
+        String list = String.format(columnFormat,"Author", "Title", "Year");
 
-        System.out.printf(columnFormat, "Author", "Title", "Year");
-
-        for(Book book:books){
-            System.out.printf(columnFormat, book.getAuthor(), book.getName(), book.getYear());
+        for(Book book: books){
+            list += String.format(columnFormat,book.getAuthor(),book.getName(),book.getYear());
         }
+
+        return list;
     }
 
     private void fillLibrary() {
@@ -36,5 +32,4 @@ public class Library {
         books.add(new Book("Dave Edgars", "The Circle", 2015));
         books.add(new Book("Henri Charrière", "Papillon", 1969));
     }
-
 }
