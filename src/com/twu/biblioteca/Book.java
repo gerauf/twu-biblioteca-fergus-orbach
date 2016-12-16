@@ -9,9 +9,9 @@ public class Book {
     private String author;
     private int year;
 
-    Book(String bookName, String bookAuthor, int publishingYear){
-        name = bookName;
+    Book(String bookAuthor, String bookName, int publishingYear){
         author = bookAuthor;
+        name = bookName;
         year = publishingYear;
     }
 

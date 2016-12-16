@@ -22,6 +22,7 @@ public class LibraryTest {
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
+
     }
 
     @After
@@ -34,15 +35,34 @@ public class LibraryTest {
     @Test
     public void welcomeMessageOnInit(){
         new Library();
+
         assertThat(outContent.toString(), CoreMatchers.containsString("Hello and welcome to the Biblioteca"));
     }
 
     @Test
     public void listBooksOnInit(){
+        String bookName = "Purity";
+        String bookAuthor = "Jonathan Franzen";
+        int bookYear = 2015;
+
         new Library();
-        String bookList = "Purity - Jonathan Franzen - 2015";
-        assertThat(outContent.toString(), CoreMatchers.containsString(bookList));
+
+        assertThat(outContent.toString(), CoreMatchers.containsString(bookName));
+        assertThat(outContent.toString(), CoreMatchers.containsString(bookAuthor));
+        assertThat(outContent.toString(), CoreMatchers.containsString(Integer.toString(bookYear)));
     }
 
+    @Test
+    public void bookDataDisplayedInColumns() throws Exception {
+        String formattedHeading;
+        String formattedBookTitle;
+        formattedHeading   = "Author                          Title                          Year    ";
+        formattedBookTitle = "Jonathan Franzen                Purity                         2015    ";
 
+        new Library();
+
+        assertThat(outContent.toString(), CoreMatchers.containsString(formattedHeading));
+        assertThat(outContent.toString(), CoreMatchers.containsString(formattedBookTitle));
+
+    }
 }

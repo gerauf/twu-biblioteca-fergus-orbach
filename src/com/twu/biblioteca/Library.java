@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Library {
 
-    private List<String> books = new ArrayList<String>();
+    private List<Book> books = new ArrayList<Book>();
 
     Library(){
         startScript();
@@ -18,14 +18,23 @@ public class Library {
         fillLibrary();
         System.out.println("Hello and welcome to the Biblioteca");
         System.out.println("--------");
+        printLibrary();
+    }
 
-        for(String book:books) System.out.println(book);
+    private void printLibrary() {
+        String columnFormat = "%-30.30s  %-30.30s %-8.4s\n";
+
+        System.out.printf(columnFormat, "Author", "Title", "Year");
+
+        for(Book book:books){
+            System.out.printf(columnFormat, book.getAuthor(), book.getName(), book.getYear());
+        }
     }
 
     private void fillLibrary() {
-        books.add("Purity - Jonathan Franzen");
-        books.add("The Circle - Dave Edgars");
-        books.add("Space - Stephen Baxter");
+        books.add(new Book("Jonathan Franzen", "Purity", 2015));
+        books.add(new Book("Dave Edgars", "The Circle", 2015));
+        books.add(new Book("Henri Charrière", "Papillon", 1969));
     }
 
 }

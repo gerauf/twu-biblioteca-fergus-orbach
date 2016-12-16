@@ -14,7 +14,8 @@ public class BookTest {
     String bookName = "The Circle";
     String bookAuthor = "Dave Edgars";
     int bookYear = 2014;
-    Book book1 = new Book(bookName, bookAuthor, bookYear);
+
+    Book book1 = new Book(bookAuthor, bookName, bookYear);
 
 
     @Test
