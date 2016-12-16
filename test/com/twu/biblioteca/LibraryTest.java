@@ -37,4 +37,11 @@ public class LibraryTest {
         assertThat(outContent.toString(), CoreMatchers.containsString("Hello and welcome to the Biblioteca"));
     }
 
+    @Test
+    public void listBooksOnInit(){
+        new Library();
+        String bookList = "Purity - Jonathan Franzen\nThe Circle - Dave Edgars\nSpace - Stephen Baxter";
+        assertThat(outContent.toString(), CoreMatchers.containsString(bookList));
+    }
+
 }
