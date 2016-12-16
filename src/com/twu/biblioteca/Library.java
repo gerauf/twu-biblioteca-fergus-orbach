@@ -18,6 +18,7 @@ public class Library {
         fillLibrary();
         System.out.println("Hello and welcome to the Biblioteca");
         System.out.println("--------");
+
         for(String book:books) System.out.println(book);
     }
 

@@ -40,8 +40,9 @@ public class LibraryTest {
     @Test
     public void listBooksOnInit(){
         new Library();
-        String bookList = "Purity - Jonathan Franzen\nThe Circle - Dave Edgars\nSpace - Stephen Baxter";
+        String bookList = "Purity - Jonathan Franzen - 2015";
         assertThat(outContent.toString(), CoreMatchers.containsString(bookList));
     }
+
 
 }
