@@ -9,9 +9,10 @@ import java.util.List;
 
 public class LibraryUI {
 
-    private List<Book> books = new ArrayList<Book>();
+    private Library library;
 
     LibraryUI(){
+        library = new Library();
         startScript();
     }
 
@@ -25,6 +26,11 @@ public class LibraryUI {
         System.out.println("What action would you like to perform today?");
         System.out.println("1. List books");
         System.out.println("Type the number of the desired menu item and press enter");
+    }
+
+     String selectMenu(int input){
+         return library.list();
+
     }
 
 

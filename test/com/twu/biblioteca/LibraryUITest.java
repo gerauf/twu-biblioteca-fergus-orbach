@@ -17,6 +17,7 @@ public class LibraryUITest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    Library lib = new Library();
 
     @Before
     public void setUpStreams() {
@@ -53,4 +54,19 @@ public class LibraryUITest {
 
     }
 
+    @Test
+    public void menuItemOneListsBooks() {
+        LibraryUI libUI = new LibraryUI();
+        String list = lib.list();
+        assertThat(libUI.selectMenu(1), CoreMatchers.containsString(list));
+
+    }
+
+    @Test
+    public void incorrectSelectionReturnsErrorMessage() throws Exception {
+        LibraryUI libUI = new LibraryUI();
+        String list = lib.list();
+        assertThat(libUI.selectMenu(1), CoreMatchers.containsString(list));
+
+    }
 }
