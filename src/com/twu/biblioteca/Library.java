@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import com.sun.javafx.binding.StringFormatter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,6 +26,18 @@ public class Library {
         }
 
         return list;
+    }
+
+    String checkout(String bookName) {
+        Iterator<Book> booksIterator = books.iterator();
+        while (booksIterator.hasNext()) {
+            Book book = booksIterator.next();
+            if (book.getName().equals(bookName)) {
+                booksIterator.remove();
+                return "Thank you! Enjoy the book";
+            }
+        }
+        return "That book is not available";
     }
 
     private void fillLibrary() {
