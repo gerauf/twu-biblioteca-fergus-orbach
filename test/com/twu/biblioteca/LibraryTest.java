@@ -3,7 +3,11 @@ package com.twu.biblioteca;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;
 
 /**
@@ -13,48 +17,43 @@ public class LibraryTest {
 
     private Library lib = new Library();
     private final String bookName = "Purity";
-    private final String bookAuthor = "Jonathan Franzen";
-    private final int bookYear = 2015;
 
     @Test
-    public void listsBooksInColumnFormat() throws Exception {
-        String results = "Author                          Title                          Year    \n";
-        assertThat(lib.list(), containsString(results));
+    public void listsReturnsArrayOfBooks() throws Exception {
+        assertThat(lib.list().get(0), isA((Book.class)));
 
     }
 
     @Test
-    public void libraryInitsWithBooks() throws Exception {
-        assertThat(lib.list(), CoreMatchers.allOf(
-                containsString(Integer.toString(bookYear)),
-                containsString(bookName),
-                containsString(bookAuthor)
-        ));
+    public void libraryInitialisesWithThreeBooks() throws Exception {
+        assertEquals(lib.list().size(), 3);
     }
 
     @Test
     public void checkedOutBooksAreRemovedFromList() throws Exception {
-        String bookName = "Purity";
-        lib.checkout("Purity");
+        lib.checkout(bookName);
 
-        assertThat(lib.list(), CoreMatchers.not(containsString(bookName)));
+        List<Book> books = lib.list();
+        for(Book book: books){
+            assertNotEquals(book.getName(), bookName);
+        }
+
     }
 
     @Test
-    public void successfulCheckOutReturnsMessage() throws Exception {
-        String checkOutMessage = "Thank you! Enjoy the book";
-
-        assertThat(lib.checkout(bookName), containsString(checkOutMessage));
+    public void checkOutReturnsTrueOnSuccess() throws Exception {
+        assertTrue(lib.checkout(bookName));
     }
 
     @Test
-    public void unsuccessfulCheckOutReturnsMessage() throws Exception {
-        String bookName = "Puberty";
-        String successMessage = "Thank you! Enjoy the book";
-        String failureMessage = "That book is not available";
+    public void checkOutReturnsFalseIfBookNameNotPresent() throws Exception {
+        assertFalse(lib.checkout("Puerility"));
+    }
 
-        assertThat(lib.checkout(bookName), CoreMatchers.not(containsString(successMessage)));
-        assertThat(lib.checkout(bookName), containsString(failureMessage));
+    @Test
+    public void checkOutReturnsFalseIfBookAlreadyCheckedOut() throws Exception {
+        lib.checkout(bookName);
+        assertFalse(lib.checkout(bookName));
     }
 
     @Test
@@ -62,34 +61,32 @@ public class LibraryTest {
         lib.checkout(bookName);
         lib.returnBook(bookName);
 
-        assertThat(lib.list(), CoreMatchers.allOf(
-                containsString(Integer.toString(bookYear)),
-                containsString(bookName),
-                containsString(bookAuthor)
-        ));
+        List<Book> books = lib.list();
+        String bookNames = "";
+
+        for(Book book: books){
+            bookNames += book.getName();
+        }
+
+        assertThat(bookNames, containsString(bookName));
     }
 
     @Test
-    public void successMessageOnReturnOfBook() throws Exception {
+    public void returnBookReturnsTrueOnSuccess() throws Exception {
         lib.checkout(bookName);
-        String successMessage = "Thank you for returning the book.";
 
-        assertThat(lib.returnBook(bookName), containsString(successMessage));
+        assertTrue(lib.returnBook(bookName));
     }
 
     @Test
-    public void booksNeedToBeCheckedOutToReturn() throws Exception {
-        String failureMessage = "That is not a valid book to return.";
-
-        assertThat(lib.returnBook(bookName), containsString(failureMessage));
-
+    public void returnBookReturnsFalseIfBookNotCheckedOutFirst() throws Exception {
+        assertFalse(lib.returnBook(bookName));
     }
 
     @Test
-    public void booksNeedToHaveComeFromLibraryToReturn() throws Exception {
+    public void returnBookReturnsFalseIfNotInLibrary() throws Exception {
         lib.checkout(bookName);
-        String failureMessage = "That is not a valid book to return.";
 
-        assertThat(lib.returnBook("Puerility"), containsString(failureMessage));
+        assertFalse(lib.returnBook("Puerility"));
     }
 }

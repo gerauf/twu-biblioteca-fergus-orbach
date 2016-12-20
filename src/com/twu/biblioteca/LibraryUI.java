@@ -54,19 +54,30 @@ public class LibraryUI {
     }
 
     private String listBooks() {
-        return library.list();
+        String columnFormat = "%-30.30s  %-30.30s %-8.4s\n";
+        String list = String.format(columnFormat, "Author", "Title", "Year");
+
+        for(Book book: library.list()){
+            list += String.format(columnFormat, book.getAuthor(), book.getName(), book.getYear());
+        }
+
+        return list;
     }
 
     private String checkOutBook() {
-        return library.checkout(
-                InputHelper.getUserInput("Please enter the title of the book you would like to checkout")
-        );
+        String bookName = InputHelper.getUserInput("Please enter the title of the book you would like to checkout");
+        if (library.checkout(bookName)){
+            return "Thank you! Enjoy the book";
+        }
+        return "That book is not available";
     }
 
     private String returnBook() {
-        return library.returnBook(
-                InputHelper.getUserInput("Please enter the title of the book you would like to return")
-        );
+        String bookName = InputHelper.getUserInput("Please enter the title of the book you would like to return");
+        if (library.returnBook(bookName)){
+            return "Thank you for returning the book.";
+        }
+        return "That is not a valid book to return.";
     }
 
 

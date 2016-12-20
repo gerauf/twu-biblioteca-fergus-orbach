@@ -71,15 +71,29 @@ public class LibraryUITest {
         assertThat(outContent.toString(), containsString(exitMessage));
     }
 
+//    @Test
+//    public void menuItem1ListsBooks() {
+//        System.setIn(input.toReturn("1").then("Q").atSomePoint());
+//
+//        new LibraryUI(lib);
+//        String list = lib.list();
+////        mock library and assert that list is called
+//
+//    }
+
     @Test
-    public void menuItem1ListsBooks() {
+    public void listsBooksInColumnFormat() throws Exception {
         System.setIn(input.toReturn("1").then("Q").atSomePoint());
 
-        new LibraryUI(lib);
-        String list = lib.list();
+        String results = "Author                          Title                          Year    \n" +
+                         "Jonathan Franzen                Purity                         2015    ";
 
-        assertThat(outContent.toString(), containsString(list));
+        new LibraryUI(lib);
+
+        assertThat(outContent.toString(), containsString(results));
+
     }
+
 
     @Test
     public void failureMessageOnIncorrectMenuSelection() throws Exception {
@@ -99,6 +113,7 @@ public class LibraryUITest {
         String checkoutMsg = "Please enter the title of the book you would like to checkout";
 
         assertThat(outContent.toString(), containsString(checkoutMsg));
+//        assert that checkout is called with book name
     }
 
     @Test
@@ -114,11 +129,10 @@ public class LibraryUITest {
     @Test
     public void successMessageOnCheckout() {
         String bookTitle = "Purity";
-        String checkoutMessage = "Thank you! Enjoy the book";
         System.setIn(input.toReturn("2").then(bookTitle).then("Q").atSomePoint());
 
-
         new LibraryUI(lib);
+        String checkoutMessage = "Thank you! Enjoy the book";
 
         assertThat(outContent.toString(), containsString(checkoutMessage));
     }
@@ -131,6 +145,8 @@ public class LibraryUITest {
         String returnMsg = "Please enter the title of the book you would like to return";
 
         assertThat(outContent.toString(), containsString(returnMsg));
+        //        assert that returnBook is called with book name
+
     }
 
     @Test
@@ -141,6 +157,8 @@ public class LibraryUITest {
         String returnMsg = "Thank you for returning the book.";
 
         assertThat(outContent.toString(), containsString(returnMsg));
+        //        mock library and stub returnBook with true
+
     }
 
     @Test
@@ -151,5 +169,7 @@ public class LibraryUITest {
         String returnMsg = "That is not a valid book to return.";
 
         assertThat(outContent.toString(), containsString(returnMsg));
+        //        mock library and stub returnBook with false
+
     }
 }

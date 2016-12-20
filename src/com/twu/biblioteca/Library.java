@@ -17,37 +17,34 @@ public class Library {
         fillLibrary();
     }
 
-    String list(){
-        String columnFormat = "%-30.30s  %-30.30s %-8.4s\n";
-        String list = String.format(columnFormat,"Author", "Title", "Year");
-
+    List<Book> list(){
+        List<Book> list = new ArrayList<Book>();
         for(Book book: books){
             if (book.isCheckedIn()){
-                list += String.format(columnFormat,book.getAuthor(),book.getName(),book.getYear());
+                list.add(book);
             }
         }
-
         return list;
     }
 
-    String checkout(String bookName) {
+    boolean checkout(String bookName) {
         for(Book book: books){
-            if(book.getName().equals(bookName)){
+            if(book.getName().equals(bookName) && book.isCheckedIn()){
                 book.checkOut();
-                return "Thank you! Enjoy the book";
+                return true;
             }
         }
-        return "That book is not available";
+        return false;
     }
 
-    String returnBook(String bookName) {
+    boolean returnBook(String bookName) {
         for(Book book: books){
             if(book.getName().equals(bookName) && !book.isCheckedIn()){
                 book.returnBook();
-                return "Thank you for returning the book.";
+                return true;
             }
         }
-        return "That is not a valid book to return.";
+        return false;
     }
 
     private void fillLibrary() {
