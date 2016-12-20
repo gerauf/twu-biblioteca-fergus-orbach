@@ -18,7 +18,7 @@ public class LibraryUITest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final InputStreamBuilder input = new InputStreamBuilder();
-    Library lib = new Library();
+    private Library lib = new Library();
 
 
     @Before
@@ -31,6 +31,7 @@ public class LibraryUITest {
     @After
     public void cleanUpStreams() {
         System.setOut(null);
+        System.setIn(null);
         System.setErr(null);
     }
 
@@ -86,15 +87,17 @@ public class LibraryUITest {
             assertThat(outContent.toString(), CoreMatchers.containsString(list));
 
         }
-//
-//        @Test
-//        public void incorrectSelectionReturnsErrorMessage() throws Exception {
-//            System.setIn(input.toReturn("err").then("Q").atSomePoint());
-//            String menuError = "Sorry that is not a valid option";
-//
-//            new LibraryUI(lib);
-//
-//            assertThat(outContent.toString(), CoreMatchers.containsString(menuError));
-//
-//        }
+
+        @Test
+        public void incorrectSelectionReturnsErrorMessage() throws Exception {
+            System.setIn(input.toReturn("err").then("Q").atSomePoint());
+            String menuError = "Sorry that is not a valid option";
+
+            new LibraryUI(lib);
+
+            assertThat(outContent.toString(), CoreMatchers.containsString(menuError));
+
+        }
+
+ 
 }

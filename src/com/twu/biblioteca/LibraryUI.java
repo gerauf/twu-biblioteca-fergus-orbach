@@ -38,13 +38,12 @@ public class LibraryUI {
 
     }
 
-     boolean selectMenu(String input){
-        if(input.equals("1")) {
-            System.out.println(library.list());
-            return true;
-        }
+     private boolean selectMenu(String input) {
+         if (input.equals("Q")) return false;
+         else if (input.equals("1")) System.out.println(library.list());
+         else System.out.println("Sorry that is not a valid option");
 
-        return false;
+        return true;
 
     }
 
