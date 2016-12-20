@@ -11,7 +11,10 @@ import static org.junit.Assert.*;
  */
 public class LibraryTest {
 
-    Library lib = new Library();
+    private Library lib = new Library();
+    private final String bookName = "Purity";
+    private final String bookAuthor = "Jonathan Franzen";
+    private final int bookYear = 2015;
 
     @Test
     public void listsBooksInColumnFormat() throws Exception {
@@ -22,10 +25,6 @@ public class LibraryTest {
 
     @Test
     public void libraryInitsWithBooks() throws Exception {
-        String bookName = "Purity";
-        String bookAuthor = "Jonathan Franzen";
-        int bookYear = 2015;
-
         assertThat(lib.list(), CoreMatchers.allOf(
                 containsString(Integer.toString(bookYear)),
                 containsString(bookName),
@@ -43,7 +42,6 @@ public class LibraryTest {
 
     @Test
     public void successfulCheckOutReturnsMessage() throws Exception {
-        String bookName = "Purity";
         String checkOutMessage = "Thank you! Enjoy the book";
 
         assertThat(lib.checkout(bookName), containsString(checkOutMessage));
@@ -57,5 +55,41 @@ public class LibraryTest {
 
         assertThat(lib.checkout(bookName), CoreMatchers.not(containsString(successMessage)));
         assertThat(lib.checkout(bookName), containsString(failureMessage));
+    }
+
+    @Test
+    public void returnedBooksShowUpInLibrary() throws Exception {
+        lib.checkout(bookName);
+        lib.returnBook(bookName);
+
+        assertThat(lib.list(), CoreMatchers.allOf(
+                containsString(Integer.toString(bookYear)),
+                containsString(bookName),
+                containsString(bookAuthor)
+        ));
+    }
+
+    @Test
+    public void successMessageOnReturnOfBook() throws Exception {
+        lib.checkout(bookName);
+        String successMessage = "Thank you for returning the book.";
+
+        assertThat(lib.returnBook(bookName), containsString(successMessage));
+    }
+
+    @Test
+    public void booksNeedToBeCheckedOutToReturn() throws Exception {
+        String failureMessage = "That is not a valid book to return.";
+
+        assertThat(lib.returnBook(bookName), containsString(failureMessage));
+
+    }
+
+    @Test
+    public void booksNeedToHaveComeFromLibraryToReturn() throws Exception {
+        lib.checkout(bookName);
+        String failureMessage = "That is not a valid book to return.";
+
+        assertThat(lib.returnBook("Puerility"), containsString(failureMessage));
     }
 }

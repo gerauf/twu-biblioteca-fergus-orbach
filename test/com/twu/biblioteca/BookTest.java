@@ -27,8 +27,27 @@ public class BookTest {
     public void booksHaveAuthors() throws Exception {
         assertEquals(bookAuthor, book1.getAuthor());
     }
+
     @Test
     public void booksHavePublishedYear() throws Exception {
         assertEquals(bookYear, book1.getYear());
+    }
+
+    @Test
+    public void booksInitialisedAsCheckedIn() throws Exception {
+        assertTrue(book1.isCheckedIn());
+    }
+
+    @Test
+    public void booksCanBeCheckedOut() throws Exception {
+        book1.checkOut();
+        assertFalse(book1.isCheckedIn());
+    }
+
+    @Test
+    public void booksCanBeReturned() throws Exception {
+        book1.checkOut();
+        book1.returnBook();
+        assertTrue(book1.isCheckedIn());
     }
 }

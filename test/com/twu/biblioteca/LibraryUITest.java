@@ -23,6 +23,7 @@ public class LibraryUITest {
     private final String MENU = "What action would you like to perform today?\n" +
             "1. List books\n" +
             "2. Checkout book\n" +
+            "3. Return book\n" +
             "Q. Quit program\n" +
             "Type the number of the desired menu item and press enter";
 
@@ -71,7 +72,7 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItemOneListsBooks() {
+    public void menuItem1ListsBooks() {
         System.setIn(input.toReturn("1").then("Q").atSomePoint());
 
         new LibraryUI(lib);
@@ -91,7 +92,7 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItemTwoAllowsCustomersToCheckOutBook() {
+    public void menuItem2AllowsCustomersToCheckOutBook() {
         System.setIn(input.toReturn("2").then("Purity").then("Q").atSomePoint());
 
         new LibraryUI(lib);
@@ -102,7 +103,7 @@ public class LibraryUITest {
 
     @Test
     public void failureMessageOnIncorrectBookSelection() {
-        System.setIn(input.toReturn("2").then("Puberty").then("Q").atSomePoint());
+        System.setIn(input.toReturn("2").then("Puerility").then("Q").atSomePoint());
 
         new LibraryUI(lib);
         String checkoutMsg = "That book is not available";
@@ -120,5 +121,35 @@ public class LibraryUITest {
         new LibraryUI(lib);
 
         assertThat(outContent.toString(), containsString(checkoutMessage));
+    }
+
+    @Test
+    public void menuItem3AllowsCustomersToReturnBook() {
+        System.setIn(input.toReturn("3").then("Purity").then("Q").atSomePoint());
+
+        new LibraryUI(lib);
+        String returnMsg = "Please enter the title of the book you would like to return";
+
+        assertThat(outContent.toString(), containsString(returnMsg));
+    }
+
+    @Test
+    public void successMessageOnReturnOfBook() {
+        System.setIn(input.toReturn("2").then("Purity").then("3").then("Purity").then("Q").atSomePoint());
+
+        new LibraryUI(lib);
+        String returnMsg = "Thank you for returning the book.";
+
+        assertThat(outContent.toString(), containsString(returnMsg));
+    }
+
+    @Test
+    public void failureMessageIfReturnedBookNotPreviouslyCheckedOut() {
+        System.setIn(input.toReturn("3").then("Purity").then("Q").atSomePoint());
+
+        new LibraryUI(lib);
+        String returnMsg = "That is not a valid book to return.";
+
+        assertThat(outContent.toString(), containsString(returnMsg));
     }
 }

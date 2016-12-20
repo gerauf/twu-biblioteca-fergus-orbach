@@ -22,22 +22,32 @@ public class Library {
         String list = String.format(columnFormat,"Author", "Title", "Year");
 
         for(Book book: books){
-            list += String.format(columnFormat,book.getAuthor(),book.getName(),book.getYear());
+            if (book.isCheckedIn()){
+                list += String.format(columnFormat,book.getAuthor(),book.getName(),book.getYear());
+            }
         }
 
         return list;
     }
 
     String checkout(String bookName) {
-        Iterator<Book> booksIterator = books.iterator();
-        while (booksIterator.hasNext()) {
-            Book book = booksIterator.next();
-            if (book.getName().equals(bookName)) {
-                booksIterator.remove();
+        for(Book book: books){
+            if(book.getName().equals(bookName)){
+                book.checkOut();
                 return "Thank you! Enjoy the book";
             }
         }
         return "That book is not available";
+    }
+
+    String returnBook(String bookName) {
+        for(Book book: books){
+            if(book.getName().equals(bookName) && !book.isCheckedIn()){
+                book.returnBook();
+                return "Thank you for returning the book.";
+            }
+        }
+        return "That is not a valid book to return.";
     }
 
     private void fillLibrary() {
