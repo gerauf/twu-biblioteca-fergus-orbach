@@ -1,13 +1,10 @@
 package com.twu.biblioteca;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
@@ -61,7 +58,7 @@ public class LibraryUITest {
     }
 
     @Test
-    public void libraryAppQuitsWhenUserChoosesQFromMenu() throws Exception {
+    public void libraryAppQuitsWhenUserChoosesQFromMenu() {
         System.setIn(input.toReturn("Q").atSomePoint());
 
         String exitMessage = "Thank you for visiting biblioteca";
@@ -82,7 +79,7 @@ public class LibraryUITest {
 //    }
 
     @Test
-    public void listsBooksInColumnFormat() throws Exception {
+    public void menuItem1ListsBooksInColumnFormat() {
         System.setIn(input.toReturn("1").then("Q").atSomePoint());
 
         String results = "Author                          Title                          Year    \n" +
