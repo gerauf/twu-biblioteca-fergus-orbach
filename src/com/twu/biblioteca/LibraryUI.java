@@ -11,25 +11,40 @@ public class LibraryUI {
 
     private Library library;
 
-    LibraryUI(){
-        library = new Library();
+    LibraryUI(Library library){
+        this.library = library;
         startScript();
     }
 
     private void startScript() {
+        boolean inLibrary = true;
+
         System.out.println("Hello and welcome to the Biblioteca");
         System.out.println("--------");
-        displayMenu();
+
+        while(inLibrary){
+            inLibrary = displayMenu();
+        }
+        System.out.println("Thank you for visiting biblioteca");
     }
 
-    private void displayMenu(){
+    private boolean displayMenu(){
         System.out.println("What action would you like to perform today?");
         System.out.println("1. List books");
+        System.out.println("Q. Quit program");
         System.out.println("Type the number of the desired menu item and press enter");
+
+        return selectMenu(InputHelper.getUserInput(""));
+
     }
 
-     String selectMenu(int input){
-         return library.list();
+     boolean selectMenu(String input){
+        if(input.equals("1")) {
+            System.out.println(library.list());
+            return true;
+        }
+
+        return false;
 
     }
 

@@ -25,8 +25,6 @@ public class LibraryTest {
         String bookAuthor = "Jonathan Franzen";
         int bookYear = 2015;
 
-        new LibraryUI();
-
         assertThat(lib.list(), CoreMatchers.containsString(bookName));
         assertThat(lib.list(), CoreMatchers.containsString(bookAuthor));
         assertThat(lib.list(), CoreMatchers.containsString(Integer.toString(bookYear)));
