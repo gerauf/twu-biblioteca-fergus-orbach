@@ -19,7 +19,7 @@ public class LibraryUITest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final InputStreamBuilder input = new InputStreamBuilder();
+    private final InputStreamBuilder stubbedInput = new InputStreamBuilder();
     private final Library mockedLibrary = mock(Library.class);
     private final Book mockedBook = mock(Book.class);
 
@@ -52,7 +52,7 @@ public class LibraryUITest {
 
     @Test
     public void welcomeMessageOnInit() {
-        System.setIn(input.toReturn(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
 
@@ -61,7 +61,7 @@ public class LibraryUITest {
 
     @Test
     public void displaysMainMenuOnInit() {
-        System.setIn(input.toReturn(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
 
@@ -70,7 +70,7 @@ public class LibraryUITest {
 
     @Test
     public void libraryAppQuitsWhenUserChoosesQFromMenu() {
-        System.setIn(input.toReturn(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(QUIT).atSomePoint());
 
         String exitMessage = "Thank you for visiting biblioteca";
 
@@ -81,7 +81,7 @@ public class LibraryUITest {
 
     @Test
     public void menuItem1ListsBooks() {
-        System.setIn(input.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
 
@@ -90,7 +90,7 @@ public class LibraryUITest {
 
     @Test
     public void menuItem1ListsBooksInColumnFormat() {
-        System.setIn(input.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
         String listHeadings = "Author                          Title                          Year    ";
 
         new LibraryUI(mockedLibrary);
@@ -99,8 +99,8 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItem1GetsBooksDetails() {
-        System.setIn(input.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
+    public void menuItem1GetsBookDetails() {
+        System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
         List<Book> books = new ArrayList<Book>();
         books.add(mockedBook);
         when(mockedLibrary.list()).thenReturn(books);
@@ -115,7 +115,7 @@ public class LibraryUITest {
 
     @Test
     public void failureMessageOnIncorrectMenuSelection() throws Exception {
-        System.setIn(input.toReturn("err").then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn("err").then(QUIT).atSomePoint());
         String menuError = "Sorry that is not a valid option";
 
         new LibraryUI(mockedLibrary);
@@ -125,7 +125,7 @@ public class LibraryUITest {
 
     @Test
     public void menuItem2AllowsCustomersToCheckOutBook() {
-        System.setIn(input.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
         String checkoutMsg = "Please enter the title of the book you would like to checkout";
@@ -136,7 +136,7 @@ public class LibraryUITest {
 
     @Test
     public void failureMessageOnIncorrectBookSelection() {
-        System.setIn(input.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.checkout(BOOK_NAME)).thenReturn(false);
 
         new LibraryUI(mockedLibrary);
@@ -147,7 +147,7 @@ public class LibraryUITest {
 
     @Test
     public void successMessageOnCheckout() {
-        System.setIn(input.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.checkout(BOOK_NAME)).thenReturn(true);
 
         new LibraryUI(mockedLibrary);
@@ -159,7 +159,7 @@ public class LibraryUITest {
 
     @Test
     public void menuItem3AllowsCustomersToReturnBook() {
-        System.setIn(input.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
 
 
         new LibraryUI(mockedLibrary);
@@ -172,7 +172,7 @@ public class LibraryUITest {
 
     @Test
     public void successMessageOnReturnOfBook() {
-        System.setIn(input.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.returnBook(BOOK_NAME)).thenReturn(true);
 
         new LibraryUI(mockedLibrary);
@@ -183,7 +183,7 @@ public class LibraryUITest {
 
     @Test
     public void failureMessageIfReturnedBookNotPreviouslyCheckedOut() {
-        System.setIn(input.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.returnBook(BOOK_NAME)).thenReturn(false);
 
         new LibraryUI(mockedLibrary);
