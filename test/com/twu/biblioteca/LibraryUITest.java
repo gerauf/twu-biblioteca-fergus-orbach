@@ -40,7 +40,6 @@ public class LibraryUITest {
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
-
     }
 
     @After
@@ -49,6 +48,7 @@ public class LibraryUITest {
         System.setIn(null);
         System.setErr(null);
     }
+
 
     @Test
     public void welcomeMessageOnInit() {
