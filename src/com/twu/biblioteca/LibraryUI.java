@@ -54,14 +54,7 @@ public class LibraryUI {
     }
 
     private String listBooks() {
-        String columnFormat = "%-30.30s  %-30.30s %-8.4s\n";
-        String list = String.format(columnFormat, "Author", "Title", "Year");
-
-        for(Book book: library.list()){
-            list += String.format(columnFormat, book.getAuthor(), book.getName(), book.getYear());
-        }
-
-        return list;
+        return library.list();
     }
 
     private String checkOutBook() {

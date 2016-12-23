@@ -1,7 +1,10 @@
 package com.twu.biblioteca;
 
+
 import org.junit.Test;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
 /**
@@ -9,71 +12,61 @@ import static org.junit.Assert.*;
  */
 public class LibraryTest {
 
-    private Library lib = new Library();
-    private final String bookName = "Purity";
+    private Library library = new Library();
+    private final String BOOK_NAME = "Purity";
+    private String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s";
+    private String BOOK_DETAILS = String.format(COL_FORMAT, "Jonathan Franzen",BOOK_NAME,2015);
 
     @Test
-    public void listsReturnsArrayOfBooksStartingWithABookNamedPurity() {
-        Book book1 = lib.list().get(0);
-        assertEquals(book1.getName(), bookName);
-    }
-
-    @Test
-    public void libraryInitialisesWithThreeBooks() {
-        assertEquals(lib.list().size(), 3);
+    public void listsReturnsStringOfTitleAndBookDetails() {
+        String HEADERS = String.format(COL_FORMAT, "Author", "Title", "Year");
+        assertThat(library.list(), allOf(containsString(HEADERS), containsString(BOOK_DETAILS)));
     }
 
     @Test
     public void checkedOutBooksAreRemovedFromList() {
-        lib.checkout(bookName);
-
-        for(Book book: lib.list()) assertNotEquals(book.getName(), bookName);
+        library.checkout(BOOK_NAME);
+        assertThat(library.list(), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
     public void checkOutReturnsTrueOnSuccess() {
-        assertTrue(lib.checkout(bookName));
+        assertTrue(library.checkout(BOOK_NAME));
     }
 
     @Test
     public void checkOutReturnsFalseIfBookNameNotPresent() {
-        assertFalse(lib.checkout("Puerility"));
+        assertFalse(library.checkout("Puerility"));
     }
 
     @Test
     public void checkOutReturnsFalseIfBookAlreadyCheckedOut() {
-        lib.checkout(bookName);
-        assertFalse(lib.checkout(bookName));
+        library.checkout(BOOK_NAME);
+        assertFalse(library.checkout(BOOK_NAME));
     }
 
     @Test
     public void returnedBooksShowUpInLibrary() {
-        String bookNames = "";
+        library.checkout(BOOK_NAME);
+        library.returnBook(BOOK_NAME);
 
-        lib.checkout(bookName);
-        lib.returnBook(bookName);
-
-        for(Book book: lib.list()) bookNames += book.getName();
-
-        assertThat(bookNames, containsString(bookName));
+        assertThat(library.list(), containsString(BOOK_DETAILS));
     }
 
     @Test
     public void returnBookReturnsTrueOnSuccess() {
-        lib.checkout(bookName);
+        library.checkout(BOOK_NAME);
 
-        assertTrue(lib.returnBook(bookName));
+        assertTrue(library.returnBook(BOOK_NAME));
     }
 
     @Test
     public void returnBookReturnsFalseIfBookNotCheckedOutFirst() {
-        assertFalse(lib.returnBook(bookName));
+        assertFalse(library.returnBook(BOOK_NAME));
     }
 
     @Test
     public void returnBookReturnsFalseIfNotInLibrary() {
-        lib.checkout(bookName);
-
-        assertFalse(lib.returnBook("Puerility"));
+        assertFalse(library.returnBook("Puerility"));
     }
 }

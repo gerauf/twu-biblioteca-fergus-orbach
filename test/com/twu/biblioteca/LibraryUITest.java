@@ -21,7 +21,6 @@ public class LibraryUITest {
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final InputStreamBuilder stubbedInput = new InputStreamBuilder();
     private final Library mockedLibrary = mock(Library.class);
-    private final Book mockedBook = mock(Book.class);
 
     private final String LIST_BOOKS = "1";
     private final String CHECKOUT_BOOK = "2";
@@ -87,31 +86,6 @@ public class LibraryUITest {
 
         verify(mockedLibrary).list();
     }
-
-    @Test
-    public void menuItem1ListsBooksInColumnFormat() {
-        System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
-        String listHeadings = "Author                          Title                          Year    ";
-
-        new LibraryUI(mockedLibrary);
-
-        assertThat(outContent.toString(), containsString(listHeadings));
-    }
-
-    @Test
-    public void menuItem1GetsBookDetails() {
-        System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
-        List<Book> books = new ArrayList<Book>();
-        books.add(mockedBook);
-        when(mockedLibrary.list()).thenReturn(books);
-
-        new LibraryUI(mockedLibrary);
-
-        verify(mockedBook).getName();
-        verify(mockedBook).getAuthor();
-        verify(mockedBook).getYear();
-    }
-
 
     @Test
     public void failureMessageOnIncorrectMenuSelection() throws Exception {

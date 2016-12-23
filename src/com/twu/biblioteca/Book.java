@@ -9,11 +9,19 @@ public class Book {
     private String author;
     private int year;
     private boolean checkedIn = true;
+    private static final String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
+    public static final String HEADERS = String.format(COL_FORMAT, "Author", "Title", "Year");
+
 
     Book(String bookAuthor, String bookName, int publishingYear){
         author = bookAuthor;
         name = bookName;
         year = publishingYear;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(COL_FORMAT,author,name,year);
     }
 
     void checkOut() {

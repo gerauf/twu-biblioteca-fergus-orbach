@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,26 +10,27 @@ import static org.junit.Assert.*;
 public class BookTest {
 
 
-    String bookName = "The Circle";
-    String bookAuthor = "Dave Edgars";
-    int bookYear = 2014;
+    private final String NAME = "The Circle";
+    private final String AUTHOR = "Dave Edgars";
+    private final int YEAR = 2014;
+    private final String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
 
-    Book book1 = new Book(bookAuthor, bookName, bookYear);
+    private Book book1 = new Book(AUTHOR, NAME, YEAR);
 
 
     @Test
     public void booksHaveNames() throws Exception {
-        assertEquals(bookName, book1.getName());
+        assertEquals(NAME, book1.getName());
     }
 
     @Test
     public void booksHaveAuthors() throws Exception {
-        assertEquals(bookAuthor, book1.getAuthor());
+        assertEquals(AUTHOR, book1.getAuthor());
     }
 
     @Test
     public void booksHavePublishedYear() throws Exception {
-        assertEquals(bookYear, book1.getYear());
+        assertEquals(YEAR, book1.getYear());
     }
 
     @Test
@@ -49,5 +49,17 @@ public class BookTest {
         book1.checkOut();
         book1.returnBook();
         assertTrue(book1.isCheckedIn());
+    }
+
+    @Test
+    public void toStringPrintsBooksDetailsInColumnFormat() {
+        String bookDetails =String.format(COL_FORMAT,AUTHOR, NAME, YEAR);
+        assertEquals(bookDetails, book1.toString());
+    }
+
+    @Test
+    public void containsStaticConstantWhichDescribeColumnHeaders() {
+        String columnHeaders = String.format(COL_FORMAT,"Author", "Title", "Year");
+        assertEquals(Book.HEADERS, columnHeaders);
     }
 }

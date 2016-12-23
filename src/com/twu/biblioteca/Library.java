@@ -15,12 +15,10 @@ public class Library {
         fillLibrary();
     }
 
-    List<Book> list(){
-        List<Book> list = new ArrayList<Book>();
+    String list(){
+        String list = Book.HEADERS;
         for(Book book: books){
-            if (book.isCheckedIn()){
-                list.add(book);
-            }
+            if (book.isCheckedIn()) list += book.toString();
         }
         return list;
     }
