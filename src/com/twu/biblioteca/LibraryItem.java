@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 /**
  * Created by fergyo on 23/12/2016.
  */
-public abstract class Library_Item {
+public abstract class LibraryItem {
     private boolean checkedIn = true;
 
     @Override

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Library {
 
-    private List<Library_Item> items = new ArrayList<Library_Item>();
+    private List<LibraryItem> items = new ArrayList<LibraryItem>();
 
     Library(){
         fillLibrary();
@@ -17,14 +17,14 @@ public class Library {
 
     String list(Class itemType){
         String list = "";
-        for(Library_Item item: items){
+        for(LibraryItem item: items){
             if (item.isCheckedIn() && item.getClass() == itemType) list += item.toString();
         }
         return list;
     }
 
     boolean checkoutItem(String itemName) {
-        for(Library_Item item: items){
+        for(LibraryItem item: items){
             if(item.getName().equals(itemName) && item.isCheckedIn()){
                 item.checkoutItem();
                 return true;
@@ -34,7 +34,7 @@ public class Library {
     }
 
     boolean returnItem(String itemName) {
-        for(Library_Item item: items){
+        for(LibraryItem item: items){
             if(item.getName().equals(itemName) && !item.isCheckedIn()){
                 item.returnItem();
                 return true;

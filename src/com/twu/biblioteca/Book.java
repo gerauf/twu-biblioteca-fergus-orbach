@@ -3,7 +3,7 @@ package com.twu.biblioteca;
 /**
  * Created by fergyo on 16/12/2016.
  */
-public class Book extends Library_Item{
+public class Book extends LibraryItem {
 
     private String name;
     private String author;
