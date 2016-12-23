@@ -22,6 +22,12 @@ public class Movie {
 
     }
 
+    Movie(String name, String director, int year){
+        this.name = name;
+        this.director = director;
+        this.year = year;
+    }
+
     public String getName() {
         return name;
     }

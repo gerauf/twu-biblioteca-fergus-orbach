@@ -31,7 +31,13 @@ public class MovieTest {
     }
 
     @Test
-    public void moviesHaveaRating() {
+    public void moviesHaveARating() {
         assertEquals(movie.getRating(), RATING);
+    }
+
+    @Test
+    public void unratedMoviesHaveA0Rating() {
+        Movie unratedMovie = new Movie(NAME, DIRECTOR, YEAR);
+        assertEquals(unratedMovie.getRating(), 0);
     }
 }
