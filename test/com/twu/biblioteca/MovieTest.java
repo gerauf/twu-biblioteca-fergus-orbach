@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-import com.sun.javafx.binding.StringFormatter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -50,14 +49,14 @@ public class MovieTest {
 
     @Test
     public void moviesCanBeCheckedOut() throws Exception {
-        movie.checkOut();
+        movie.checkoutItem();
         assertFalse(movie.isCheckedIn());
     }
 
     @Test
     public void moviesCanBeReturned() throws Exception {
-        movie.checkOut();
-        movie.returnBook();
+        movie.checkoutItem();
+        movie.returnItem();
         assertTrue(movie.isCheckedIn());
     }
 

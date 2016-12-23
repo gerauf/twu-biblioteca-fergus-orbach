@@ -9,34 +9,34 @@ import java.util.List;
  */
 public class Library {
 
-    private List<Book> books = new ArrayList<Book>();
+    private List<Library_Item> items = new ArrayList<Library_Item>();
 
     Library(){
         fillLibrary();
     }
 
-    String list(){
-        String list = Book.HEADERS;
-        for(Book book: books){
-            if (book.isCheckedIn()) list += book.toString();
+    String list(Class itemType){
+        String list = "";
+        for(Library_Item item: items){
+            if (item.isCheckedIn() && item.getClass() == itemType) list += item.toString();
         }
         return list;
     }
 
-    boolean checkout(String bookName) {
-        for(Book book: books){
-            if(book.getName().equals(bookName) && book.isCheckedIn()){
-                book.checkOut();
+    boolean checkoutItem(String itemName) {
+        for(Library_Item item: items){
+            if(item.getName().equals(itemName) && item.isCheckedIn()){
+                item.checkoutItem();
                 return true;
             }
         }
         return false;
     }
 
-    boolean returnBook(String bookName) {
-        for(Book book: books){
-            if(book.getName().equals(bookName) && !book.isCheckedIn()){
-                book.returnBook();
+    boolean returnItem(String itemName) {
+        for(Library_Item item: items){
+            if(item.getName().equals(itemName) && !item.isCheckedIn()){
+                item.returnItem();
                 return true;
             }
         }
@@ -44,8 +44,9 @@ public class Library {
     }
 
     private void fillLibrary() {
-        books.add(new Book("Jonathan Franzen", "Purity", 2015));
-        books.add(new Book("Dave Edgars", "The Circle", 2015));
-        books.add(new Book("Henri Charrière", "Papillon", 1969));
+        items.add(new Book("Jonathan Franzen", "Purity", 2015));
+        items.add(new Book("Dave Edgars", "The Circle", 2015));
+        items.add(new Book("Henri Charrière", "Papillon", 1969));
+        items.add(new Movie("Terminator", "James Cameron", 1985, 8));
     }
 }

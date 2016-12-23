@@ -14,59 +14,67 @@ public class LibraryTest {
 
     private Library library = new Library();
     private final String BOOK_NAME = "Purity";
-    private String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s";
-    private String BOOK_DETAILS = String.format(COL_FORMAT, "Jonathan Franzen",BOOK_NAME,2015);
+    private String BOOK_COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
+    private String MOVIE_COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";;
+    private String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen",BOOK_NAME,2015);
+    private String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
 
     @Test
-    public void listsReturnsStringOfTitleAndBookDetails() {
-        String HEADERS = String.format(COL_FORMAT, "Author", "Title", "Year");
-        assertThat(library.list(), allOf(containsString(HEADERS), containsString(BOOK_DETAILS)));
+    public void listReturnsBooksWhenSuppliedWithBookClass() {
+        assertThat(library.list(Book.class), containsString(BOOK_DETAILS));
+        assertThat(library.list(Book.class), not(containsString(MOVIE_COL_FORMAT)));
     }
 
     @Test
-    public void checkedOutBooksAreRemovedFromList() {
-        library.checkout(BOOK_NAME);
-        assertThat(library.list(), not(containsString(BOOK_DETAILS)));
+    public void listReturnsMoviesWhenSuppliedWithMovieClass() {
+        assertThat(library.list(Movie.class), containsString(MOVIE_DETAILS));
+        assertThat(library.list(Movie.class), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
-    public void checkOutReturnsTrueOnSuccess() {
-        assertTrue(library.checkout(BOOK_NAME));
+    public void checkedOutItemsAreRemovedFromList() {
+        library.checkoutItem(BOOK_NAME);
+        assertThat(library.list(Book.class), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
-    public void checkOutReturnsFalseIfBookNameNotPresent() {
-        assertFalse(library.checkout("Puerility"));
+    public void checkOutItemReturnsTrueOnSuccess() {
+        assertTrue(library.checkoutItem(BOOK_NAME));
     }
 
     @Test
-    public void checkOutReturnsFalseIfBookAlreadyCheckedOut() {
-        library.checkout(BOOK_NAME);
-        assertFalse(library.checkout(BOOK_NAME));
+    public void checkOutItemReturnsFalseIfBookNameNotPresent() {
+        assertFalse(library.checkoutItem("Puerility"));
     }
 
     @Test
-    public void returnedBooksShowUpInLibrary() {
-        library.checkout(BOOK_NAME);
-        library.returnBook(BOOK_NAME);
-
-        assertThat(library.list(), containsString(BOOK_DETAILS));
+    public void checkOutItemReturnsFalseIfBookAlreadyCheckedOut() {
+        library.checkoutItem(BOOK_NAME);
+        assertFalse(library.checkoutItem(BOOK_NAME));
     }
 
     @Test
-    public void returnBookReturnsTrueOnSuccess() {
-        library.checkout(BOOK_NAME);
+    public void returnedItemsShowUpInLibrary() {
+        library.checkoutItem(BOOK_NAME);
+        library.returnItem(BOOK_NAME);
 
-        assertTrue(library.returnBook(BOOK_NAME));
+        assertThat(library.list(Book.class), containsString(BOOK_DETAILS));
     }
 
     @Test
-    public void returnBookReturnsFalseIfBookNotCheckedOutFirst() {
-        assertFalse(library.returnBook(BOOK_NAME));
+    public void returnItemReturnsTrueOnSuccess() {
+        library.checkoutItem(BOOK_NAME);
+
+        assertTrue(library.returnItem(BOOK_NAME));
     }
 
     @Test
-    public void returnBookReturnsFalseIfNotInLibrary() {
-        assertFalse(library.returnBook("Puerility"));
+    public void returnItemReturnsFalseIfItemNotCheckedOutFirst() {
+        assertFalse(library.returnItem(BOOK_NAME));
+    }
+
+    @Test
+    public void returnItemReturnsFalseIfNotInLibrary() {
+        assertFalse(library.returnItem("Puerility"));
     }
 }

@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -23,14 +21,16 @@ public class LibraryUITest {
     private final Library mockedLibrary = mock(Library.class);
 
     private final String LIST_BOOKS = "1";
-    private final String CHECKOUT_BOOK = "2";
-    private final String RETURN_BOOK = "3";
+    private final String LIST_MOVIES = "2";
+    private final String CHECKOUT_ITEM = "3";
+    private final String RETURN_ITEM = "4";
     private final String QUIT = "Q";
-    private final String BOOK_NAME = "Awesome book";
+    private final String ITEM_NAME = "Awesome book";
     private final String MENU = "What action would you like to perform today?\n" +
             "1. List books\n" +
-            "2. Checkout book\n" +
-            "3. Return book\n" +
+            "2. List movies\n" +
+            "3. Checkout item\n" +
+            "4. Return item\n" +
             "Q. Quit program\n" +
             "Type the number of the desired menu item and press enter";
 
@@ -79,12 +79,21 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItem1ListsBooks() {
+    public void menuItem1ListsItems() {
         System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
 
-        verify(mockedLibrary).list();
+        verify(mockedLibrary).list(Book.class);
+    }
+
+    @Test
+    public void menuItem4ListsMovies() {
+        System.setIn(stubbedInput.toReturn(LIST_MOVIES).then(QUIT).atSomePoint());
+
+        new LibraryUI(mockedLibrary);
+
+        verify(mockedLibrary).list(Movie.class);
     }
 
     @Test
@@ -98,70 +107,70 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItem2AllowsCustomersToCheckOutBook() {
-        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+    public void menuItem3AllowsCustomersToCheckOutItem() {
+        System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
-        String checkoutMsg = "Please enter the title of the book you would like to checkout";
+        String checkoutMsg = "Please enter the title of the item you would like to checkout";
 
         assertThat(outContent.toString(), containsString(checkoutMsg));
-        verify(mockedLibrary).checkout(BOOK_NAME);
+        verify(mockedLibrary).checkoutItem(ITEM_NAME);
     }
 
     @Test
-    public void failureMessageOnIncorrectBookSelection() {
-        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
-        when(mockedLibrary.checkout(BOOK_NAME)).thenReturn(false);
+    public void failureMessageOnIncorrectItemSelection() {
+        System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+        when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(false);
 
         new LibraryUI(mockedLibrary);
-        String checkoutMsg = "That book is not available";
+        String checkoutMsg = "That selection is not available";
 
         assertThat(outContent.toString(), containsString(checkoutMsg));
     }
 
     @Test
     public void successMessageOnCheckout() {
-        System.setIn(stubbedInput.toReturn(CHECKOUT_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
-        when(mockedLibrary.checkout(BOOK_NAME)).thenReturn(true);
+        System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+        when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(true);
 
         new LibraryUI(mockedLibrary);
 
-        String checkoutMessage = "Thank you! Enjoy the book";
+        String checkoutMessage = "Thank you! Enjoy your selection";
 
         assertThat(outContent.toString(), containsString(checkoutMessage));
     }
 
     @Test
-    public void menuItem3AllowsCustomersToReturnBook() {
-        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
+    public void menuItem3AllowsCustomersToReturnItem() {
+        System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
 
         new LibraryUI(mockedLibrary);
-        String returnMsg = "Please enter the title of the book you would like to return";
+        String returnMsg = "Please enter the title of the item you would like to return";
 
         assertThat(outContent.toString(), containsString(returnMsg));
-        verify(mockedLibrary).returnBook(BOOK_NAME);
+        verify(mockedLibrary).returnItem(ITEM_NAME);
 
     }
 
     @Test
-    public void successMessageOnReturnOfBook() {
-        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
-        when(mockedLibrary.returnBook(BOOK_NAME)).thenReturn(true);
+    public void successMessageOnReturnOfItem() {
+        System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+        when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(true);
 
         new LibraryUI(mockedLibrary);
-        String returnMsg = "Thank you for returning the book.";
+        String returnMsg = "Thank you for returning the item.";
 
         assertThat(outContent.toString(), containsString(returnMsg));
     }
 
     @Test
-    public void failureMessageIfReturnedBookNotPreviouslyCheckedOut() {
-        System.setIn(stubbedInput.toReturn(RETURN_BOOK).then(BOOK_NAME).then(QUIT).atSomePoint());
-        when(mockedLibrary.returnBook(BOOK_NAME)).thenReturn(false);
+    public void failureMessageIfReturnedItemNotPreviouslyCheckedOut() {
+        System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+        when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(false);
 
         new LibraryUI(mockedLibrary);
-        String returnMsg = "That is not a valid book to return.";
+        String returnMsg = "That is not a valid item to return.";
 
         assertThat(outContent.toString(), containsString(returnMsg));
     }

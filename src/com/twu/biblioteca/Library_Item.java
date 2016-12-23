@@ -9,12 +9,13 @@ public abstract class Library_Item {
     @Override
     public abstract String toString();
 
+    abstract String getName();
 
-    void checkOut() {
+    void checkoutItem() {
         checkedIn = false;
     }
 
-    void returnBook() {
+    void returnItem() {
         checkedIn = true;
     }
 

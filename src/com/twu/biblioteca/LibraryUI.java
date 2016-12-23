@@ -1,8 +1,5 @@
 package com.twu.biblioteca;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by fergyo on 16/12/2016.
  */
@@ -11,8 +8,9 @@ public class LibraryUI {
 
     private static final String MENU = "What action would you like to perform today?\n" +
             "1. List books\n" +
-            "2. Checkout book\n" +
-            "3. Return book\n" +
+            "2. List movies\n" +
+            "3. Checkout item\n" +
+            "4. Return item\n" +
             "Q. Quit program\n" +
             "Type the number of the desired menu item and press enter";
 
@@ -44,33 +42,30 @@ public class LibraryUI {
 
      private boolean selectMenu(String input) {
          if (input.equals("Q")) return false;
-         else if (input.equals("1")) System.out.println(listBooks());
-         else if (input.equals("2")) System.out.println(checkOutBook());
-         else if (input.equals("3")) System.out.println(returnBook());
+         else if (input.equals("1")) System.out.println(library.list(Book.class));
+         else if (input.equals("2")) System.out.println(library.list(Movie.class));
+         else if (input.equals("3")) System.out.println(checkOutItem());
+         else if (input.equals("4")) System.out.println(returnItem());
          else System.out.println("Sorry that is not a valid option");
 
         return true;
 
     }
 
-    private String listBooks() {
-        return library.list();
+    private String checkOutItem() {
+        String itemName = InputHelper.getUserInput("Please enter the title of the item you would like to checkoutItem");
+        if (library.checkoutItem(itemName)){
+            return "Thank you! Enjoy your selection";
+        }
+        return "That selection is not available";
     }
 
-    private String checkOutBook() {
-        String bookName = InputHelper.getUserInput("Please enter the title of the book you would like to checkout");
-        if (library.checkout(bookName)){
-            return "Thank you! Enjoy the book";
+    private String returnItem() {
+        String itemName = InputHelper.getUserInput("Please enter the title of the item you would like to return");
+        if (library.returnItem(itemName)){
+            return "Thank you for returning the item.";
         }
-        return "That book is not available";
-    }
-
-    private String returnBook() {
-        String bookName = InputHelper.getUserInput("Please enter the title of the book you would like to return");
-        if (library.returnBook(bookName)){
-            return "Thank you for returning the book.";
-        }
-        return "That is not a valid book to return.";
+        return "That is not a valid item to return.";
     }
 
 

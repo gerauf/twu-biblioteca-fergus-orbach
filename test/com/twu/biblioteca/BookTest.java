@@ -40,14 +40,14 @@ public class BookTest {
 
     @Test
     public void booksCanBeCheckedOut() throws Exception {
-        book1.checkOut();
+        book1.checkoutItem();
         assertFalse(book1.isCheckedIn());
     }
 
     @Test
     public void booksCanBeReturned() throws Exception {
-        book1.checkOut();
-        book1.returnBook();
+        book1.checkoutItem();
+        book1.returnItem();
         assertTrue(book1.isCheckedIn());
     }
 
@@ -60,6 +60,6 @@ public class BookTest {
     @Test
     public void containsStaticConstantWhichDescribeColumnHeaders() {
         String columnHeaders = String.format(COL_FORMAT,"Author", "Title", "Year");
-        assertEquals(Book.HEADERS, columnHeaders);
+        assertEquals(Book.HEADER, columnHeaders);
     }
 }
