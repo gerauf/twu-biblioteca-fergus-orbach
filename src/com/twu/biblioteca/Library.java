@@ -47,6 +47,7 @@ public class Library {
         items.add(new Book("Jonathan Franzen", "Purity", 2015));
         items.add(new Book("Dave Edgars", "The Circle", 2015));
         items.add(new Book("Henri Charrière", "Papillon", 1969));
-        items.add(new Movie("Terminator", "James Cameron", 1985, 8));
+        items.add(new Movie("Terminator", "James Cameron", 8, 1985));
+        items.add(new Movie("King Arthur", "Guy Ritchie", 2017));
     }
 }

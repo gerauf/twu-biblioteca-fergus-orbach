@@ -88,7 +88,7 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItem4ListsMovies() {
+    public void menuItem2ListsMovies() {
         System.setIn(stubbedInput.toReturn(LIST_MOVIES).then(QUIT).atSomePoint());
 
         new LibraryUI(mockedLibrary);
@@ -141,7 +141,7 @@ public class LibraryUITest {
     }
 
     @Test
-    public void menuItem3AllowsCustomersToReturnItem() {
+    public void menuItem4AllowsCustomersToReturnItem() {
         System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
 

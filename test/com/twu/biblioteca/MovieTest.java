@@ -13,7 +13,9 @@ public class MovieTest {
     private final String DIRECTOR = "Frank Darabont";
     private final int YEAR = 1995;
     private final String NAME = "The Shawshank Redemption";
-    private final Movie movie = new Movie(NAME, DIRECTOR, YEAR, RATING);
+    private final Movie movie = new Movie(NAME, DIRECTOR, RATING, YEAR);
+    private final Movie unratedMovie = new Movie(NAME, DIRECTOR, YEAR);
+
     private final String COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";
 
     @Test
@@ -38,7 +40,6 @@ public class MovieTest {
 
     @Test
     public void unratedMoviesHaveA0Rating() {
-        Movie unratedMovie = new Movie(NAME, DIRECTOR, YEAR);
         assertEquals(unratedMovie.getRating(), 0);
     }
 
@@ -62,14 +63,14 @@ public class MovieTest {
 
     @Test
     public void toStringPrintsMoviesDetailsInColumnFormat() {
-        String movieDetails =String.format(COL_FORMAT, NAME, DIRECTOR, RATING, YEAR);
+        String movieDetails = String.format(COL_FORMAT, NAME, DIRECTOR, RATING, YEAR);
         assertEquals(movieDetails, movie.toString());
     }
 
     @Test
     public void unratedMoviesPrintUnratedInRatingColumn() {
-        String movieDetails =String.format(COL_FORMAT, NAME, DIRECTOR, RATING, YEAR);
-        assertEquals(movieDetails, movie.toString());
+        String movieDetails = String.format(COL_FORMAT, NAME, DIRECTOR, "Unrated", YEAR);
+        assertEquals(movieDetails, unratedMovie.toString());
     }
 
     @Test

@@ -17,11 +17,11 @@ public class Movie extends Library_Item{
         return year;
     }
 
-    public Movie(String name, String director, int year, int rating){
+    public Movie(String name, String director, int rating, int year){
         this.name = name;
         this.director = director;
-        this.year = year;
         this.rating = rating;
+        this.year = year;
 
     }
 
@@ -33,6 +33,7 @@ public class Movie extends Library_Item{
 
     @Override
     public String toString() {
+        String rating = this.rating == 0 ? "Unrated" : String.valueOf(this.rating);
         return String.format(COL_FORMAT, name, director, rating, year);
     }
 
