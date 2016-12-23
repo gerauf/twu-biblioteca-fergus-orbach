@@ -3,12 +3,11 @@ package com.twu.biblioteca;
 /**
  * Created by fergyo on 16/12/2016.
  */
-public class Book {
+public class Book extends Library_Item{
 
     private String name;
     private String author;
     private int year;
-    private boolean checkedIn = true;
     private static final String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
     public static final String HEADERS = String.format(COL_FORMAT, "Author", "Title", "Year");
 
@@ -22,18 +21,6 @@ public class Book {
     @Override
     public String toString() {
         return String.format(COL_FORMAT,author,name,year);
-    }
-
-    void checkOut() {
-        checkedIn = false;
-    }
-
-    void returnBook() {
-        checkedIn = true;
-    }
-
-    boolean isCheckedIn() {
-        return checkedIn;
     }
 
     String getName(){

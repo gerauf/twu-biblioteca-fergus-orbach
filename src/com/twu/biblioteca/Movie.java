@@ -3,12 +3,15 @@ package com.twu.biblioteca;
 /**
  * Created by fergyo on 22/12/2016.
  */
-public class Movie {
+public class Movie extends Library_Item{
 
     private final String name;
     private final String director;
     private final int year;
     private int rating;
+    private static final String COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";
+    public static final String HEADERS = String.format(COL_FORMAT, "Title", "Director", "Rating", "Year");
+
 
     public int getYear() {
         return year;
@@ -26,6 +29,11 @@ public class Movie {
         this.name = name;
         this.director = director;
         this.year = year;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(COL_FORMAT, name, director, rating, year);
     }
 
     public String getName() {
