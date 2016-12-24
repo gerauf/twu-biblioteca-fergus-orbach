@@ -17,7 +17,7 @@ public class Movie extends LibraryItem {
         return year;
     }
 
-    public Movie(String name, String director, int rating, int year){
+    public Movie(String name, String director, int rating, int year) {
         this.name = name;
         this.director = director;
         this.rating = rating;
@@ -25,7 +25,7 @@ public class Movie extends LibraryItem {
 
     }
 
-    Movie(String name, String director, int year){
+    Movie(String name, String director, int year) {
         this.name = name;
         this.director = director;
         this.year = year;
