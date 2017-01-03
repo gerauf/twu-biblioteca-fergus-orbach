@@ -53,7 +53,8 @@ public class LibraryUITest {
     public void welcomeMessageOnInit() {
         System.setIn(stubbedInput.toReturn(QUIT).atSomePoint());
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
         assertThat(outContent.toString(), containsString("Hello and welcome to the Biblioteca"));
     }
@@ -62,7 +63,8 @@ public class LibraryUITest {
     public void displaysMainMenuOnInit() {
         System.setIn(stubbedInput.toReturn(QUIT).atSomePoint());
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
         assertThat(outContent.toString(), containsString(MENU));
     }
@@ -73,7 +75,8 @@ public class LibraryUITest {
 
         String exitMessage = "Thank you for visiting biblioteca";
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
         assertThat(outContent.toString(), containsString(exitMessage));
     }
@@ -82,18 +85,20 @@ public class LibraryUITest {
     public void menuItem1ListsItems() {
         System.setIn(stubbedInput.toReturn(LIST_BOOKS).then(QUIT).atSomePoint());
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
-        verify(mockedLibrary).list(Book.class);
+        verify(mockedLibrary).listAvailableItemsOfType(Book.class);
     }
 
     @Test
     public void menuItem2ListsMovies() {
         System.setIn(stubbedInput.toReturn(LIST_MOVIES).then(QUIT).atSomePoint());
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
-        verify(mockedLibrary).list(Movie.class);
+        verify(mockedLibrary).listAvailableItemsOfType(Movie.class);
     }
 
     @Test
@@ -101,7 +106,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn("err").then(QUIT).atSomePoint());
         String menuError = "Sorry that is not a valid option";
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
         assertThat(outContent.toString(), containsString(menuError));
     }
@@ -110,7 +116,8 @@ public class LibraryUITest {
     public void menuItem3AllowsCustomersToCheckOutItem() {
         System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
         String checkoutMsg = "Please enter the title of the item you would like to checkout";
 
         assertThat(outContent.toString(), containsString(checkoutMsg));
@@ -122,7 +129,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(false);
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
         String checkoutMsg = "That selection is not available";
 
         assertThat(outContent.toString(), containsString(checkoutMsg));
@@ -133,7 +141,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(true);
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
 
         String checkoutMessage = "Thank you! Enjoy your selection";
 
@@ -145,7 +154,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
         String returnMsg = "Please enter the title of the item you would like to return";
 
         assertThat(outContent.toString(), containsString(returnMsg));
@@ -158,7 +168,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(true);
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
         String returnMsg = "Thank you for returning the item.";
 
         assertThat(outContent.toString(), containsString(returnMsg));
@@ -169,7 +180,8 @@ public class LibraryUITest {
         System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
         when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(false);
 
-        new LibraryUI(mockedLibrary);
+        LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+        libraryUI.start();
         String returnMsg = "That is not a valid item to return.";
 
         assertThat(outContent.toString(), containsString(returnMsg));

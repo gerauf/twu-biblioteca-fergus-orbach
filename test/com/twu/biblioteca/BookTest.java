@@ -24,16 +24,6 @@ public class BookTest {
     }
 
     @Test
-    public void booksHaveAuthors() throws Exception {
-        assertEquals(AUTHOR, book1.getAuthor());
-    }
-
-    @Test
-    public void booksHavePublishedYear() throws Exception {
-        assertEquals(YEAR, book1.getYear());
-    }
-
-    @Test
     public void booksInitialisedAsCheckedIn() throws Exception {
         assertTrue(book1.isCheckedIn());
     }
@@ -57,9 +47,4 @@ public class BookTest {
         assertEquals(bookDetails, book1.toString());
     }
 
-    @Test
-    public void containsStaticConstantWhichDescribeColumnHeaders() {
-        String columnHeaders = String.format(COL_FORMAT,"Author", "Title", "Year");
-        assertEquals(Book.HEADER, columnHeaders);
-    }
 }

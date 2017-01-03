@@ -24,26 +24,6 @@ public class MovieTest {
     }
 
     @Test
-    public void moviesHaveADirector() {
-        assertEquals(movie.getDirector(), DIRECTOR);
-    }
-
-    @Test
-    public void moviesHaveAYear() {
-        assertEquals(movie.getYear(), YEAR);
-    }
-
-    @Test
-    public void moviesHaveARating() {
-        assertEquals(movie.getRating(), RATING);
-    }
-
-    @Test
-    public void unratedMoviesHaveA0Rating() {
-        assertEquals(unratedMovie.getRating(), 0);
-    }
-
-    @Test
     public void moviesInitialisedAsCheckedIn() throws Exception {
         assertTrue(movie.isCheckedIn());
     }
@@ -71,11 +51,5 @@ public class MovieTest {
     public void unratedMoviesPrintUnratedInRatingColumn() {
         String movieDetails = String.format(COL_FORMAT, NAME, DIRECTOR, "Unrated", YEAR);
         assertEquals(movieDetails, unratedMovie.toString());
-    }
-
-    @Test
-    public void containsStaticConstantWhichDescribeColumnHeaders() {
-        String columnHeaders = String.format(COL_FORMAT,"Title", "Director", "Rating", "Year");
-        assertEquals(Movie.HEADERS, columnHeaders);
     }
 }

@@ -1,6 +1,5 @@
 package com.twu.biblioteca;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +14,16 @@ public class Library {
         fillLibrary();
     }
 
-    String list(Class itemType){
+    String listAvailableItemsOfType(Class itemType){
         String list = "";
         for(LibraryItem item: items){
-            if (item.isCheckedIn() && item.getClass() == itemType) list += item.toString();
+            if (isCorrectTypeAndAvailable(item, itemType)) list += item.toString();
         }
         return list;
+    }
+
+    private boolean isCorrectTypeAndAvailable(LibraryItem item, Class itemType) {
+        return item.isCheckedIn() && item.getClass() == itemType;
     }
 
     boolean checkoutItem(String itemName) {

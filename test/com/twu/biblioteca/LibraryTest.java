@@ -2,7 +2,6 @@ package com.twu.biblioteca;
 
 
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
@@ -21,20 +20,20 @@ public class LibraryTest {
 
     @Test
     public void listReturnsBooksWhenSuppliedWithBookClass() {
-        assertThat(library.list(Book.class), containsString(BOOK_DETAILS));
-        assertThat(library.list(Book.class), not(containsString(MOVIE_COL_FORMAT)));
+        assertThat(library.listAvailableItemsOfType(Book.class), containsString(BOOK_DETAILS));
+        assertThat(library.listAvailableItemsOfType(Book.class), not(containsString(MOVIE_COL_FORMAT)));
     }
 
     @Test
     public void listReturnsMoviesWhenSuppliedWithMovieClass() {
-        assertThat(library.list(Movie.class), containsString(MOVIE_DETAILS));
-        assertThat(library.list(Movie.class), not(containsString(BOOK_DETAILS)));
+        assertThat(library.listAvailableItemsOfType(Movie.class), containsString(MOVIE_DETAILS));
+        assertThat(library.listAvailableItemsOfType(Movie.class), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
     public void checkedOutItemsAreRemovedFromList() {
         library.checkoutItem(BOOK_NAME);
-        assertThat(library.list(Book.class), not(containsString(BOOK_DETAILS)));
+        assertThat(library.listAvailableItemsOfType(Book.class), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
@@ -58,7 +57,7 @@ public class LibraryTest {
         library.checkoutItem(BOOK_NAME);
         library.returnItem(BOOK_NAME);
 
-        assertThat(library.list(Book.class), containsString(BOOK_DETAILS));
+        assertThat(library.listAvailableItemsOfType(Book.class), containsString(BOOK_DETAILS));
     }
 
     @Test

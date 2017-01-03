@@ -10,12 +10,6 @@ public class Movie extends LibraryItem {
     private final int year;
     private int rating;
     private static final String COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";
-    public static final String HEADERS = String.format(COL_FORMAT, "Title", "Director", "Rating", "Year");
-
-
-    public int getYear() {
-        return year;
-    }
 
     public Movie(String name, String director, int rating, int year) {
         this.name = name;
@@ -41,11 +35,4 @@ public class Movie extends LibraryItem {
         return name;
     }
 
-    public String getDirector() {
-        return director;
-    }
-
-    public int getRating() {
-        return rating;
-    }
 }

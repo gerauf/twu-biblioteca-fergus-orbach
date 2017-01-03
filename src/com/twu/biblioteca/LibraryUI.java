@@ -1,9 +1,5 @@
 package com.twu.biblioteca;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by fergyo on 16/12/2016.
  */
@@ -22,10 +18,9 @@ public class LibraryUI {
 
     LibraryUI(Library library){
         this.library = library;
-        startScript();
     }
 
-    private void startScript() {
+    void start() {
         boolean inLibrary = true;
 
         System.out.println("Hello and welcome to the Biblioteca");
@@ -46,14 +41,13 @@ public class LibraryUI {
 
      private boolean selectMenu(String input) {
          if (input.equals("Q")) return false;
-         else if (input.equals("1")) System.out.println(library.list(Book.class));
-         else if (input.equals("2")) System.out.println(library.list(Movie.class));
+         else if (input.equals("1")) System.out.println(library.listAvailableItemsOfType(Book.class));
+         else if (input.equals("2")) System.out.println(library.listAvailableItemsOfType(Movie.class));
          else if (input.equals("3")) System.out.println(checkOutItem());
          else if (input.equals("4")) System.out.println(returnItem());
          else System.out.println("Sorry that is not a valid option");
 
         return true;
-
     }
 
     private String checkOutItem() {
@@ -71,6 +65,4 @@ public class LibraryUI {
         }
         return "That is not a valid item to return.";
     }
-
-
 }

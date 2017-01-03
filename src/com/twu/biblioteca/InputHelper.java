@@ -9,7 +9,9 @@ import java.io.InputStreamReader;
  */
 public class InputHelper {
     public static String getUserInput(String prompt){
+
         String inputLine = null;
+
         System.out.println(prompt + " ");
         try{
             BufferedReader is = new BufferedReader(new InputStreamReader(System.in));
@@ -18,6 +20,7 @@ public class InputHelper {
         }catch(IOException e){
             System.out.println("IOException: " + e);
         }
+
         return inputLine;
     }
 }

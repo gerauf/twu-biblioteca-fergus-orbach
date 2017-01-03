@@ -9,8 +9,6 @@ public class Book extends LibraryItem {
     private String author;
     private int year;
     private static final String COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
-    public static final String HEADER = String.format(COL_FORMAT, "Author", "Title", "Year");
-
 
     Book(String bookAuthor, String bookName, int publishingYear){
         author = bookAuthor;
@@ -26,13 +24,5 @@ public class Book extends LibraryItem {
     @Override
     String getName(){
         return name;
-    }
-
-    String getAuthor(){
-        return author;
-    }
-
-    int getYear(){
-        return year;
     }
 }
