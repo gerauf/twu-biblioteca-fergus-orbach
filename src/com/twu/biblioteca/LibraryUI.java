@@ -53,7 +53,6 @@ public class LibraryUI {
             default: System.out.println("Sorry that is not a valid option");
                 break;
         }
-
         return true;
     }
 

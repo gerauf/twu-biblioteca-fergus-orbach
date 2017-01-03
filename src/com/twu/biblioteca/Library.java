@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Library {
 
-    private List<LibraryItem> items = new ArrayList<LibraryItem>();
+    private List<LibraryItem> items = new ArrayList<>();
 
     Library(){
         fillLibrary();
