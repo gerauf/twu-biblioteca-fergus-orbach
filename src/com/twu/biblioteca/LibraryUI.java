@@ -40,12 +40,19 @@ public class LibraryUI {
     }
 
      private boolean selectMenu(String input) {
-         if (input.equals("Q")) return false;
-         else if (input.equals("1")) System.out.println(library.listAvailableItemsOfType(Book.class));
-         else if (input.equals("2")) System.out.println(library.listAvailableItemsOfType(Movie.class));
-         else if (input.equals("3")) System.out.println(checkOutItem());
-         else if (input.equals("4")) System.out.println(returnItem());
-         else System.out.println("Sorry that is not a valid option");
+        switch (input) {
+            case "Q": return false;
+            case "1": System.out.println(library.listAvailableItemsOfType(Book.class));
+                break;
+            case "2": System.out.println(library.listAvailableItemsOfType(Movie.class));
+                break;
+            case "3": System.out.println(checkOutItem());
+                break;
+            case "4": System.out.println(returnItem());
+                break;
+            default: System.out.println("Sorry that is not a valid option");
+                break;
+        }
 
         return true;
     }
