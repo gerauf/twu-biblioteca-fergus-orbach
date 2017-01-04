@@ -29,6 +29,7 @@ public class LibraryUITest {
     private final String CHECKOUT_ITEM = "3";
     private final String RETURN_ITEM = "4";
     private final String LOGIN = "5";
+    private final String DISPLAY_USER = "6";
     private final String QUIT = "Q";
     private final String ITEM_NAME = "Awesome book";
     private final String USER_ID = "123-4567";
@@ -39,6 +40,7 @@ public class LibraryUITest {
             "3. Checkout item\n" +
             "4. Return item\n" +
             "5. Login\n" +
+            "6. Display User Details\n" +
             "Q. Quit program\n" +
             "Type the number of the desired menu item and press enter";
 
@@ -177,7 +179,7 @@ public class LibraryUITest {
         public class checkingOutItems {
 
             @Test
-            public void accessedFromMenuItem3() {
+            public void choosing3FromMenuGivesOptionToCheckOutItem() {
                 System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
 
                 LibraryUI libraryUI = new LibraryUI(mockedLibrary);
@@ -204,11 +206,11 @@ public class LibraryUITest {
             public void messageOnSuccess() {
                 System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
                 when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(true);
+                String checkoutMessage = "Thank you! Enjoy your selection";
 
                 LibraryUI libraryUI = new LibraryUI(mockedLibrary);
                 libraryUI.start();
 
-                String checkoutMessage = "Thank you! Enjoy your selection";
 
                 assertThat(outContent.toString(), containsString(checkoutMessage));
             }
@@ -253,6 +255,17 @@ public class LibraryUITest {
             }
         }
 
+        @Test
+        public void choosing6FromMenuReturnsUserDetails() {
+            System.setIn(stubbedInput.toReturn(DISPLAY_USER).then(QUIT).atSomePoint());
+            when(mockedLibrary.activeUserDetails()).thenReturn("Some string of user details");
+
+            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+            libraryUI.start();
+
+            assertThat(outContent.toString(), containsString("Some string of user details"));
+        }
+
     }
 
     public class WhenNoUserLoggedIn {
@@ -292,6 +305,17 @@ public class LibraryUITest {
                     not(containsString(returnMessage)),
                     containsString(noUserMessage)
             ));
+        }
+
+        @Test
+        public void choosing6FromMenuReturnsNoUserMessage() {
+            System.setIn(stubbedInput.toReturn(DISPLAY_USER).then(QUIT).atSomePoint());
+            when(mockedLibrary.activeUserDetails()).thenReturn("No User");
+
+            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+            libraryUI.start();
+
+            assertThat(outContent.toString(), containsString("No User"));
         }
     }
 

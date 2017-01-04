@@ -72,4 +72,9 @@ public class Library {
         if(activeUser != null) return activeUser.getName();
         return "No User";
     }
+
+    public String activeUserDetails() {
+        if(activeUser != null) return activeUser.toString();
+        return "No User";
+    }
 }

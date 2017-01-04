@@ -12,6 +12,7 @@ public class LibraryUI {
             "3. Checkout item\n" +
             "4. Return item\n" +
             "5. Login\n" +
+            "6. Display User Details\n" +
             "Q. Quit program\n" +
             "Type the number of the desired menu item and press enter";
 
@@ -53,10 +54,15 @@ public class LibraryUI {
                 break;
             case "5": System.out.println(login());
                 break;
-            default: System.out.println("Sorry that is not a valid option");
+            case "6": System.out.println(showUserDetails());
                 break;
+            default:  System.out.println("Sorry that is not a valid option");
         }
         return true;
+    }
+
+    private String showUserDetails() {
+        return library.activeUserDetails();
     }
 
     private String checkOutItem() {

@@ -11,26 +11,26 @@ import static org.junit.Assert.*;
  */
 public class LibraryTest {
 
-    private Library library = new Library();
+    private final Library library = new Library();
     private final String BOOK_NAME = "Purity";
-    private String BOOK_COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
-    private String MOVIE_COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";;
-    private String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen",BOOK_NAME,2015);
-    private String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
-    private String USER_ID = "123-4567";
-    private String USER_NAME = "Joe Bloggs";
-    private String PASSWORD = "passw0rd";
+    private final String BOOK_COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
+    private final String MOVIE_COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";
+    private final String USER_COL_FORMAT = "%-30.30s  %-30.30s %-11.11s\n";
+    private final String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen", BOOK_NAME ,2015);
+    private final String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
+    private final String USER_ID = "123-4567";
+    private final String PASSWORD = "passw0rd";
+    private final String USER_NAME = "Joe Bloggs";
+    private final String USER_DETAILS = String.format(USER_COL_FORMAT, USER_NAME, "jb@gmail.com", "07969761562");
 
     @Test
     public void listReturnsBooksWhenSuppliedWithBookClass() {
         assertThat(library.listAvailableItemsOfType(Book.class), containsString(BOOK_DETAILS));
-        assertThat(library.listAvailableItemsOfType(Book.class), not(containsString(MOVIE_COL_FORMAT)));
     }
 
     @Test
     public void listReturnsMoviesWhenSuppliedWithMovieClass() {
         assertThat(library.listAvailableItemsOfType(Movie.class), containsString(MOVIE_DETAILS));
-        assertThat(library.listAvailableItemsOfType(Movie.class), not(containsString(BOOK_DETAILS)));
     }
 
     @Test
@@ -100,5 +100,16 @@ public class LibraryTest {
         library.checkPassword(USER_ID, PASSWORD);
         assertEquals(USER_NAME, library.getActiveUserName());
 
+    }
+
+    @Test
+    public void whenUserHasCheckedInActiveUserDetailsReturnsUserString() {
+        library.checkPassword(USER_ID, PASSWORD);
+        assertEquals(USER_DETAILS, library.activeUserDetails());
+    }
+
+    @Test
+    public void whenUserHasNotCheckedInActiveUserDetailsReturnsNoUser() {
+        assertEquals("No User", library.activeUserDetails());
     }
 }

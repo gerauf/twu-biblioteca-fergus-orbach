@@ -6,6 +6,8 @@ package com.twu.biblioteca;
 public class User {
 
     private String name, email, phoneNumber, id, password;
+    private static String FORMAT = "%-30.30s  %-30.30s %-11.11s\n";
+
 
     User(String name, String email, String phoneNumber, String id, String password) {
         this.name = name;
@@ -32,6 +34,11 @@ public class User {
     }
 
     public boolean checkPassword(String id, String password) {
-        return this.id.equals(id) && this.password.equals(password);
+        return checkUser(id) && this.password.equals(password);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(FORMAT, name, email, phoneNumber);
     }
 }
