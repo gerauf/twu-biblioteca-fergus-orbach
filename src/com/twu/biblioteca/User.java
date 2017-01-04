@@ -5,12 +5,14 @@ package com.twu.biblioteca;
  */
 public class User {
 
-    private String name, email, phoneNumber;
+    private String name, email, phoneNumber, id, password;
 
-    User(String name, String email, String phoneNumber) {
+    User(String name, String email, String phoneNumber, String id, String password) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.id = id;
+        this.password = password;
     }
 
     public String getName() {
@@ -23,5 +25,13 @@ public class User {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public boolean checkUser(String id) {
+        return id.equals(this.id);
+    }
+
+    public boolean checkPassword(String id, String password) {
+        return this.id.equals(id) && this.password.equals(password);
     }
 }

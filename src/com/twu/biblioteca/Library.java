@@ -9,6 +9,8 @@ import java.util.List;
 public class Library {
 
     private List<LibraryItem> items = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+    public User activeUser;
 
     Library(){
         fillLibrary();
@@ -52,5 +54,22 @@ public class Library {
         items.add(new Book("Henri Charrière", "Papillon", 1969));
         items.add(new Movie("Terminator", "James Cameron", 8, 1985));
         items.add(new Movie("King Arthur", "Guy Ritchie", 2017));
+
+        users.add(new User("Joe Bloggs", "jb@gmail.com", "07969761562", "123-4567", "passw0rd"));
+    }
+
+    boolean checkPassword(String id, String password) {
+        for(User user: users){
+            if(user.checkPassword(id,password)) {
+                activeUser = user;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getActiveUserName() {
+        if(activeUser != null) return activeUser.getName();
+        return "No User";
     }
 }

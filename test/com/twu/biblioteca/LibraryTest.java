@@ -17,6 +17,9 @@ public class LibraryTest {
     private String MOVIE_COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";;
     private String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen",BOOK_NAME,2015);
     private String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
+    private String USER_ID = "123-4567";
+    private String USER_NAME = "Joe Bloggs";
+    private String PASSWORD = "passw0rd";
 
     @Test
     public void listReturnsBooksWhenSuppliedWithBookClass() {
@@ -75,5 +78,27 @@ public class LibraryTest {
     @Test
     public void returnItemReturnsFalseIfNotInLibrary() {
         assertFalse(library.returnItem("Puerility"));
+    }
+
+    @Test
+    public void checkPasswordReturnsTrueIfSuppliedWithAValidIDAndPassword() {
+        assertTrue(library.checkPassword(USER_ID, PASSWORD));
+    }
+
+    @Test
+    public void checkPasswordReturnsFalseIfIncorrectPassword() {
+        assertFalse(library.checkPassword(USER_ID, "Wrong password"));
+    }
+
+    @Test
+    public void initiallyNoActiveUser() {
+        assertEquals(library.getActiveUserName(), "No User");
+    }
+
+    @Test
+    public void whenUserHasCheckedInThenGetActiveUserNameReturnsName() {
+        library.checkPassword(USER_ID, PASSWORD);
+        assertEquals(USER_NAME, library.getActiveUserName());
+
     }
 }
