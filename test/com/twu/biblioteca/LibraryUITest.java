@@ -168,81 +168,132 @@ public class LibraryUITest {
         }
     }
 
-    public class checkingOutItems {
-        @Test
-        public void accessedFromMenuItem3() {
-            System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+    public class WhenUserLoggedIn {
+        @Before
+        public void mockUserLoggedIn() {
+            when(mockedLibrary.getActiveUserName()).thenReturn("Bob");
+        }
 
-            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
-            libraryUI.start();
-            String checkoutMsg = "Please enter the title of the item you would like to checkout";
+        public class checkingOutItems {
 
-            assertThat(outContent.toString(), containsString(checkoutMsg));
-            verify(mockedLibrary).checkoutItem(ITEM_NAME);
+            @Test
+            public void accessedFromMenuItem3() {
+                System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+                String checkoutMsg = "Please enter the title of the item you would like to checkout";
+
+                assertThat(outContent.toString(), containsString(checkoutMsg));
+                verify(mockedLibrary).checkoutItem(ITEM_NAME);
+            }
+
+            @Test
+            public void failureMessageIfItemIsNotAvailable() {
+                System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+                when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(false);
+
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+                String checkoutMsg = "That selection is not available";
+
+                assertThat(outContent.toString(), containsString(checkoutMsg));
+            }
+
+            @Test
+            public void messageOnSuccess() {
+                System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+                when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(true);
+
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+
+                String checkoutMessage = "Thank you! Enjoy your selection";
+
+                assertThat(outContent.toString(), containsString(checkoutMessage));
+            }
+        }
+
+        public class returningItems {
+            @Before
+            public void setsInputStream(){
+                System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
+            }
+
+            @Test
+            public void accessedByMenuItem4() {
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+                String returnMsg = "Please enter the title of the item you would like to return";
+
+                assertThat(outContent.toString(), containsString(returnMsg));
+                verify(mockedLibrary).returnItem(ITEM_NAME);
+            }
+
+            @Test
+            public void messageOnSuccess() {
+                when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(true);
+
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+                String returnMsg = "Thank you for returning the item";
+
+                assertThat(outContent.toString(), containsString(returnMsg));
+            }
+
+            @Test
+            public void failureMessageIfItemIsNotReturnable() {
+                when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(false);
+                String returnMsg = "That is not a valid item to return";
+
+                LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+                libraryUI.start();
+
+                assertThat(outContent.toString(), containsString(returnMsg));
+            }
+        }
+
+    }
+
+    public class WhenNoUserLoggedIn {
+
+        @Before
+        public void mockNoUserLoggedIn() {
+            when(mockedLibrary.getActiveUserName()).thenReturn("No User");
         }
 
         @Test
-        public void failureMessageIfItemIsNotAvailable() {
+        public void itemsCanNotBeCheckedOut() {
             System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
-            when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(false);
-
-            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
-            libraryUI.start();
-            String checkoutMsg = "That selection is not available";
-
-            assertThat(outContent.toString(), containsString(checkoutMsg));
-        }
-
-        @Test
-        public void messageOnSuccess() {
-            System.setIn(stubbedInput.toReturn(CHECKOUT_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
-            when(mockedLibrary.checkoutItem(ITEM_NAME)).thenReturn(true);
-
-            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
-            libraryUI.start();
 
             String checkoutMessage = "Thank you! Enjoy your selection";
+            String noUserMessage = "A user must be logged in to checkout an item";
 
-            assertThat(outContent.toString(), containsString(checkoutMessage));
+            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
+            libraryUI.start();
+
+            assertThat(outContent.toString(), allOf(
+                    not(containsString(checkoutMessage)),
+                    containsString(noUserMessage)
+            ));
         }
-    }
 
-    public class returningItems {
-        @Before
-        public void setsInputStream(){
+        @Test
+        public void itemsCanNotBeReturned() {
             System.setIn(stubbedInput.toReturn(RETURN_ITEM).then(ITEM_NAME).then(QUIT).atSomePoint());
-        }
 
-        @Test
-        public void accessedByMenuItem4() {
-            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
-            libraryUI.start();
-            String returnMsg = "Please enter the title of the item you would like to return";
-
-            assertThat(outContent.toString(), containsString(returnMsg));
-            verify(mockedLibrary).returnItem(ITEM_NAME);
-        }
-
-        @Test
-        public void messageOnSuccess() {
-            when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(true);
+            String returnMessage = "Thank you for returning the item";
+            String noUserMessage = "A user must be logged in to return an item";
 
             LibraryUI libraryUI = new LibraryUI(mockedLibrary);
             libraryUI.start();
-            String returnMsg = "Thank you for returning the item.";
 
-            assertThat(outContent.toString(), containsString(returnMsg));
-        }
-
-        @Test
-        public void failureMessageIfItemIsNotReturnable() {
-            when(mockedLibrary.returnItem(ITEM_NAME)).thenReturn(false);
-
-            LibraryUI libraryUI = new LibraryUI(mockedLibrary);
-            libraryUI.start();
-            String returnMsg = "That is not a valid item to return.";
-
-            assertThat(outContent.toString(), containsString(returnMsg));
+            assertThat(outContent.toString(), allOf(
+                    not(containsString(returnMessage)),
+                    containsString(noUserMessage)
+            ));
         }
     }
+
+
 }

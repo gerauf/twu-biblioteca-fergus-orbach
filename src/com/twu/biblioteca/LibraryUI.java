@@ -60,24 +60,34 @@ public class LibraryUI {
     }
 
     private String checkOutItem() {
+        if(noActiveUser()) return "A user must be logged in to checkout an item";
+
         String itemName = InputHelper.getUserInput("Please enter the title of the item you would like to checkoutItem");
 
-        if (library.checkoutItem(itemName)) return "Thank you! Enjoy your selection";
-        return "That selection is not available";
+        return library.checkoutItem(itemName) ? "Thank you! Enjoy your selection" : "That selection is not available";
     }
 
     private String returnItem() {
+        if(noActiveUser()) return "A user must be logged in to return an item";
+
         String itemName = InputHelper.getUserInput("Please enter the title of the item you would like to return");
 
-        if (library.returnItem(itemName)) return "Thank you for returning the item.";
-        return "That is not a valid item to return.";
+        return library.returnItem(itemName) ? "Thank you for returning the item" : "That is not a valid item to return";
     }
 
     private String login() {
         String userID = InputHelper.getUserInput("Please enter your library number");
         String password = InputHelper.getUserInput("Please enter your password");
 
-        if(library.checkPassword(userID, password)) return library.getActiveUserName() + " is now logged in";
+        if(library.checkPassword(userID, password)) return activeUserName() + " is now logged in";
         return "Password or user ID is incorrect";
+    }
+
+    private String activeUserName() {
+        return library.getActiveUserName();
+    }
+
+    private boolean noActiveUser() {
+        return activeUserName().equals("No User");
     }
 }
