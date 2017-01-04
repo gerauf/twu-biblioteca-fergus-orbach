@@ -90,7 +90,7 @@ public class LibraryUI {
     }
 
     private String activeUserName() {
-        return library.getActiveUserName();
+        return library.activeUserName();
     }
 
     private boolean noActiveUser() {

@@ -159,7 +159,7 @@ public class LibraryUITest {
         @Test
         public void SuccessMessageIfCorrectCustomerIDAndPassword() {
             when(mockedLibrary.checkPassword(USER_ID, PASSWORD)).thenReturn(true);
-            when(mockedLibrary.getActiveUserName()).thenReturn("Bob");
+            when(mockedLibrary.activeUserName()).thenReturn("Bob");
 
             String failureMessage = "Bob is now logged in";
 
@@ -173,7 +173,7 @@ public class LibraryUITest {
     public class WhenUserLoggedIn {
         @Before
         public void mockUserLoggedIn() {
-            when(mockedLibrary.getActiveUserName()).thenReturn("Bob");
+            when(mockedLibrary.activeUserName()).thenReturn("Bob");
         }
 
         public class checkingOutItems {
@@ -272,7 +272,7 @@ public class LibraryUITest {
 
         @Before
         public void mockNoUserLoggedIn() {
-            when(mockedLibrary.getActiveUserName()).thenReturn("No User");
+            when(mockedLibrary.activeUserName()).thenReturn("No User");
         }
 
         @Test
@@ -318,6 +318,4 @@ public class LibraryUITest {
             assertThat(outContent.toString(), containsString("No User"));
         }
     }
-
-
 }

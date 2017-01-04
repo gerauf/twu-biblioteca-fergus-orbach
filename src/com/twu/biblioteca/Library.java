@@ -24,10 +24,6 @@ public class Library {
         return list;
     }
 
-    private boolean isCorrectTypeAndAvailable(LibraryItem item, Class itemType) {
-        return item.isCheckedIn() && item.getClass() == itemType;
-    }
-
     boolean checkoutItem(String itemName) {
         for(LibraryItem item: items){
             if(item.getName().equals(itemName) && item.isCheckedIn()){
@@ -48,16 +44,6 @@ public class Library {
         return false;
     }
 
-    private void fillLibrary() {
-        items.add(new Book("Jonathan Franzen", "Purity", 2015));
-        items.add(new Book("Dave Edgars", "The Circle", 2015));
-        items.add(new Book("Henri Charrière", "Papillon", 1969));
-        items.add(new Movie("Terminator", "James Cameron", 8, 1985));
-        items.add(new Movie("King Arthur", "Guy Ritchie", 2017));
-
-        users.add(new User("Joe Bloggs", "jb@gmail.com", "07969761562", "123-4567", "passw0rd"));
-    }
-
     boolean checkPassword(String id, String password) {
         for(User user: users){
             if(user.checkPassword(id,password)) {
@@ -68,13 +54,27 @@ public class Library {
         return false;
     }
 
-    public String getActiveUserName() {
+    String activeUserName() {
         if(activeUser != null) return activeUser.getName();
         return "No User";
     }
 
-    public String activeUserDetails() {
+    String activeUserDetails() {
         if(activeUser != null) return activeUser.toString();
         return "No User";
+    }
+
+    private boolean isCorrectTypeAndAvailable(LibraryItem item, Class itemType) {
+        return item.isCheckedIn() && item.getClass() == itemType;
+    }
+
+    private void fillLibrary() {
+        items.add(new Book("Jonathan Franzen", "Purity", 2015));
+        items.add(new Book("Dave Edgars", "The Circle", 2015));
+        items.add(new Book("Henri Charrière", "Papillon", 1969));
+        items.add(new Movie("Terminator", "James Cameron", 8, 1985));
+        items.add(new Movie("King Arthur", "Guy Ritchie", 2017));
+
+        users.add(new User("Joe Bloggs", "jb@gmail.com", "07969761562", "123-4567", "passw0rd"));
     }
 }

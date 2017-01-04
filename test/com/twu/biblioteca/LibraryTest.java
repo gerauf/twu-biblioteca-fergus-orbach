@@ -12,15 +12,15 @@ import static org.junit.Assert.*;
 public class LibraryTest {
 
     private final Library library = new Library();
-    private final String BOOK_NAME = "Purity";
     private final String BOOK_COL_FORMAT = "%-30.30s  %-30.30s %-8.4s\n";
     private final String MOVIE_COL_FORMAT = "%-30.30s  %-30.30s %-10.8s %-8.4s\n";
     private final String USER_COL_FORMAT = "%-30.30s  %-30.30s %-11.11s\n";
-    private final String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen", BOOK_NAME ,2015);
-    private final String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
+    private final String BOOK_NAME = "Purity";
     private final String USER_ID = "123-4567";
     private final String PASSWORD = "passw0rd";
     private final String USER_NAME = "Joe Bloggs";
+    private final String BOOK_DETAILS = String.format(BOOK_COL_FORMAT, "Jonathan Franzen", BOOK_NAME ,2015);
+    private final String MOVIE_DETAILS = String.format(MOVIE_COL_FORMAT, "Terminator","James Cameron", 8, 1985);
     private final String USER_DETAILS = String.format(USER_COL_FORMAT, USER_NAME, "jb@gmail.com", "07969761562");
 
     @Test
@@ -92,13 +92,13 @@ public class LibraryTest {
 
     @Test
     public void initiallyNoActiveUser() {
-        assertEquals(library.getActiveUserName(), "No User");
+        assertEquals(library.activeUserName(), "No User");
     }
 
     @Test
     public void whenUserHasCheckedInThenGetActiveUserNameReturnsName() {
         library.checkPassword(USER_ID, PASSWORD);
-        assertEquals(USER_NAME, library.getActiveUserName());
+        assertEquals(USER_NAME, library.activeUserName());
 
     }
 

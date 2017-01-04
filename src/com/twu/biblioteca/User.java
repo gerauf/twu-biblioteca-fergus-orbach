@@ -17,23 +17,23 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public String getPhoneNumber() {
+    String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public boolean checkUser(String id) {
+    boolean checkUser(String id) {
         return id.equals(this.id);
     }
 
-    public boolean checkPassword(String id, String password) {
+    boolean checkPassword(String id, String password) {
         return checkUser(id) && this.password.equals(password);
     }
 
