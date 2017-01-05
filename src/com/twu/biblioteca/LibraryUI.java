@@ -25,20 +25,25 @@ public class LibraryUI {
     void start() {
         boolean inLibrary = true;
 
-        System.out.println("Hello and welcome to the Biblioteca");
-        System.out.println("--------");
-
+        printWelcomeMessage();
         while(inLibrary){
             inLibrary = displayMenu();
         }
+        printExitMessage();
+    }
 
-        System.out.println("Thank you for visiting biblioteca");
+    private void printWelcomeMessage() {
+        System.out.println("Hello and welcome to the Biblioteca");
+        System.out.println("--------");
     }
 
     private boolean displayMenu(){
         System.out.println(MENU);
-
         return selectMenu(InputHelper.getUserInput(""));
+    }
+
+    private void printExitMessage() {
+        System.out.println("Thank you for visiting biblioteca");
     }
 
      private boolean selectMenu(String input) {
@@ -54,15 +59,11 @@ public class LibraryUI {
                 break;
             case "5": System.out.println(login());
                 break;
-            case "6": System.out.println(showUserDetails());
+            case "6": System.out.println(activeUserDetails());
                 break;
             default:  System.out.println("Sorry that is not a valid option");
         }
         return true;
-    }
-
-    private String showUserDetails() {
-        return library.activeUserDetails();
     }
 
     private String checkOutItem() {
@@ -89,11 +90,14 @@ public class LibraryUI {
         return "Password or user ID is incorrect";
     }
 
+    private boolean noActiveUser() {
+        return activeUserName().equals("No User");
+    }
+
     private String activeUserName() {
         return library.activeUserName();
     }
 
-    private boolean noActiveUser() {
-        return activeUserName().equals("No User");
-    }
+    private String activeUserDetails() { return library.activeUserDetails(); }
+
 }
